@@ -1,0 +1,46 @@
+
+@rem-size=37.5;
+
+//长·宽比例样式表
+.w(@px){
+  width:unit(@px/37.5,rem);
+}
+.h(@px){
+  height:unit(@px/37.5,rem);
+}
+.fs(@px){
+  font-size:unit(@px/37.5,rem) ;
+}
+.lh(@px){
+  line-height: unit(@px/37.5,rem);
+}
+.m_t(@px){
+  margin-top:unit(@px/37.5,rem) ;
+}
+.p_b(@px){
+  padding-bottom:unit(@px/37.5,rem) ;
+}
+
+ .bug(@color){
+    border: 1px solid @color;
+ }
+ 
+ .top(@px){
+    top: unit(@px/37.5,rem);
+ }
+ .bottom(@px){
+    bottom: unit(@px/37.5,rem);
+ }
+ .left(@px){
+    left: unit(@px/37.5,rem);
+ }
+ .right(@px){
+    right: unit(@px/37.5,rem);
+ }
+ .padding(@t,@r,@b,@l){
+    padding-top: unit(@t/37.5,rem);
+    padding-right: unit(@r/37.5,rem);
+    padding-bottom: unit(@b/37.5,rem);
+    padding-left: unit(@l/37.5,rem);
+ }
+ 
