@@ -32,6 +32,13 @@ module.exports = {
         pathRewrite: {
           "^/cont": ""
         }
+				},
+				"/search": {
+				  target: "http://ustbhuangyi.com", //要请求的跨域头部域名 将这个替换为我们自己起的暗号
+				  changeOrigin: true,
+				  pathRewrite: {
+				    "^/search": ""
+				  }
       }
     },
 

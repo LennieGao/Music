@@ -1,126 +1,123 @@
 <template>
+	<div class='warpper'>
 
-	<div class="search">
-		<div class="search_box">
-			<span class="span_img">
-
-			</span>
-			<input type="text" placeholder="搜素歌曲 . 歌手" @keyup="getVal()" v-model="val">
-			<ul>
-				<li>
-					<h2>热门搜索</h2>
-					<span>不能说的秘密</span>
-					<span>盗将行</span>
-					<span>哈遥远的你</span>
-					<span>哈哈遥远你</span>
-					<span>哈哈遥远的你</span>
-					<span>哈哈远的你</span>
-					<span>哈哈遥远的</span>
-					<span>哈哈哈遥远的你</span>
-					<span>出山</span>
-				</li>
+		<div class='Search'>
+			<input type="text" placeholder="搜索歌曲、歌手" id='mydata' @keyup="getval" @blur="back" v-model="val">
+			<ul class="serchbox">
+				<li v-for="(item,index) in Sdata" :key='index'>{{item.albumname}} - {{item.singer[0].name}}</li>
 			</ul>
+			<!-- <img src="../../icon/search.png" class="serch" > -->
+			<ul class="hotsearch">
+				<li>热门搜索</li><br>
+				<span>不能说的秘密</span>
+				<span>盗将行</span>
+				<span>哈哈遥远的你呀</span>
+				<span>出山</span>
+				<span>写给黄淮</span>
+				<span>哈哈遥远的你呀</span>
+				<span>哈哈遥你呀</span>
+				<span>出山</span>
+			</ul>
+			<!-- <ul class="last">
+			<li>搜索历史</li>
+			<li>出山</li>
+		</ul> -->
 		</div>
 	</div>
 
 </template>
-<!-- <script src="./iconfont.js"></script> -->
+
+
+
 <script>
 	import BScroll from 'better-scroll'
-
 	export default {
 		data() {
 			return {
-				val: ""
+				val: "",
+				Sdata: '',
 			}
 		},
 		methods: {
-			getVal() {
-				var url=`http://ustbhuangyi.com/music/api/getDiscList?g_tk=1928093487&inCharset=utf-8&outCharset=utf-8&notice=0&format=json&platform=yqq&hostUin=0&sin=0&ein=29&sortId=5&needNewCode=0&categoryId=10000000&rnd=0.9179656885893261`
-				this.$axios.get(url)
-				.then(data=>{
-					console.log(this.val)
+			initScroll() {
+				new BScroll('.warpper', {
+					click: true
 				})
+			},
+			getval() {
+				let box = document.getElementsByClassName('serchbox')[0]
+				box.style.display = 'block';
+				var url =
+					`/cont/music/api/search?g_tk=1928093487&inCharset=utf-8&outCharset=utf-8&notice=0&format=json&w=${this.val}&p=1&perpage=20&n=20&catZhida=1&zhidaqu=1&t=0&flag=1&ie=utf-8&sem=1&aggr=0&remoteplace=txt.mqq.all&uin=0&needNewCode=1&platform=h5`;
+				this.$axios.get(url)
+					.then(data => {
+						//   console.log(this.val)
+						//    console.log(data.data.song.list);  
+						this.Sdata = data.data.song.list;
+						console.log(this.Sdata);
+					})
+			},
+			back() {
+				let box = document.getElementsByClassName('serchbox')[0]
+				box.style.display = 'none';
+
 			}
 		},
-		
-		
-		
-		// 		data(){
-		// 			
-		// // 		},
-		// 		methods:{
-		// 			initScroll() {
-		// 				new BScroll('.warpper', {
-		// 					click: true
-		// 				})
-		// 			},
-		// 		},
-		// 		created(){
-		// 			
-		// 		},
-		// 		mounted(){
-		// 			this.initScroll()
-		// 		}
-		// 		
+		mounted() {
+			this.getval();
+			this.back();
+			this.initScroll()
+
+		}
 	}
 </script>
 
 <style lang="less">
 	@import url('../../../style/main.less');
 
-
-	.search {
-		.w(375);
-		.h(40);
-		margin-top: 20px;
-
-		.search_box {
-			.w(335);
-			.h(40);
-			// background: pink;
-			margin-left: 20px;
-			border-radius: 6px;
-
-			.span_img {
-				display: inline-block;
-				.w(40);
-				.h(40);
-				// background: gold;
-				margin-left: 6px;
-				.lh(40);
-
-				img {
-					.h(40);
-					.w(40);
-				}
-			}
+	.warpper {
+		.Search {
+			color: gold;
+			background: bule;
+			.w(375);
+			// .h(100);
+			margin-top: 20px;
 
 			input {
-				display: inline-block;
-				margin-top: -35px;
-				border: none;
+				.w(270);
 				.h(30);
-				.w(240);
+				border: none;
+				margin-left: 50px;
+				border-radius: 6px;
+
 			}
 
-			ul {
-				margin-top: 10px;
-				h2{
+			.serchbox {
+				.w(375);
+				position: fixed;
+				bottom: 0;
+				top: 200px;
+				font-size: 16px;
+			}
+
+			.hotsearch {
+				li {
 					.h(30);
-					.w(375);
-					font-size: @fontSize-L;
-					color: @fontColorSel;
+					.lh(30);
+					font-size: 16px;
+					margin-left: 20px;
+					margin-top: 20px;
 				}
-				span{
-// 					.padding(20,0,20,20);
-					margin-left: 10px;
-					font-size: @fontSize-L;
-					color: #fff;
-					background: gray	
+
+				span {
+					display: inline-block;
+					.padding(10, 10, 10, 10);
+					.lh(28);
+					text-align: center;
+					font-size: 14px;
+
 				}
 			}
-
 		}
 	}
 </style>
